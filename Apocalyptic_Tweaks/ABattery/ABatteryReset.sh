@@ -23,7 +23,6 @@ resetprop -n persist.radio.apm_sim_not_pwdn 1
 resetprop -n ro.ril.enable.amr.wideband 0
 resetprop -n power.saving.low_screen_brightness 1
 resetprop -n ro.config.hw_smart_battery 1
-resetprop -n ro.config.hw_power_profile low
 
 # Dalvik and Kernel Modifications
 resetprop -n ro.setupwizard.mode DISABLED
