@@ -17,7 +17,7 @@ on_install() {
   ui_print "- Extraindo arquivos do módulo"
   unzip -o "$ZIPFILE" 'system/*' -d "$MODPATH" >&2
   unzip -o -j "$ZIPFILE" 'common/vendor.prop' -d "$MODPATH" >&2
-  unzip -o "$ZIPFILE" 'ABattery/*' -d "$MODPATH/ABattery" >&2
+  unzip -o "$ZIPFILE" 'ABattery/*' -d "$MODPATH" >&2
   unzip -o "$ZIPFILE" 'service.sh' -d "$MODPATH" >&2
 }
 
