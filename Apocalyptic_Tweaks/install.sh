@@ -13,6 +13,24 @@ print_modname() {
   ui_print "  "
 }
 
+ui_print "- Verificando compatibilidade com MediaTek..."
+
+CHIP_INFO="$(grep -Ei 'Hardware|Processor|model name' /proc/cpuinfo | uniq | cut -d ':' -f2 | tr -d '[:blank:]')"
+CHIP_INFO="$CHIP_INFO $(getprop ro.board.platform) $(getprop ro.hardware) $(getprop ro.hardware.chipname)"
+
+if echo "$CHIP_INFO" | grep -qi "mt"; then
+  ui_print "- Dispositivo MediaTek detectado, prosseguindo com a instalação..."
+else
+  ui_print "********************************************"
+  ui_print "! Este módulo é exclusivo para dispositivos"
+  ui_print "! com chipset MediaTek."
+  ui_print "! Instalação abortada."
+  ui_print "********************************************"
+  abort
+fi
+
+# Essas funções só serão chamadas se passar no if acima.
+
 on_install() {
   ui_print "- Extraindo arquivos do módulo"
   unzip -o "$ZIPFILE" 'system/*' -d "$MODPATH" >&2
