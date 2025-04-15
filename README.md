@@ -8,7 +8,7 @@ A criação desse modulo não se deve a mim unicamente, dentro de todo o meio da
 .
 Creditos:
 Telegram
-@OrkGabb (Gabriel)
-@Rem01Gaming
-@ericinacio (Erick)
-@RiOpSoDisc (RiProG Group)
+@OrkGabb (Gabriel),
+@Rem01Gaming,
+@ericinacio (Erick),
+@RiOpSoDisc (RiProG Group).
