@@ -12,3 +12,9 @@ debug.sf.predict_hwc_composition_strategy=1
 
 #non low ram
 ro.config.low_ram=false
+
+#log_boot
+log.tag.statsd=ERROR
+log.tag.stats_log=ERROR
+log.tag.stats=ERROR
+log.tag.APM=ERROR
