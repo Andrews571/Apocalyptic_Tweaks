@@ -36,11 +36,9 @@ on_install() {
   unzip -o "$ZIPFILE" 'system/*' -d "$MODPATH" >&2
   unzip -o -j "$ZIPFILE" 'common/vendor.prop' -d "$MODPATH" >&2
   unzip -o "$ZIPFILE" 'ABattery/*' -d "$MODPATH" >&2
-  unzip -o "$ZIPFILE" 'service.sh' -d "$MODPATH" >&2
 }
 
 set_permissions() {
   set_perm_recursive "$MODPATH" 0 0 0755 0644
   set_perm_recursive "$MODPATH/ABattery/ABatteryReset.sh" 0 0 0775 0775
-  set_perm "$MODPATH/service.sh" 0 0 0755
 }
