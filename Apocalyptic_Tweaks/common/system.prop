@@ -41,7 +41,7 @@ ro.config.enable.hw_accel=true
 
 # Ajustes finos de textura e consisão de detalhes (LLK/CACHE)
 ro.sys.fw.use_trimlog=true
-debug.hwui.disable_scissor_opt=true
+debug.hwui.disable_scissor_opt=false
 ro.hwui.texture_cache_size=24
 ro.hwui.texture_cache_flushrate=0.5
 ro.sf.disable_smooth_effect=true
@@ -80,7 +80,7 @@ debug.hwui.trace_gpu_resources=false
 debug.hwui.show_layers_updates=false
 debug.hwui.skip_empty_damage=true
 debug.hwui.use_buffer_age=false
-debug.hwui.use_partial_updates=false
+debug.hwui.use_partial_updates=true
 debug.hwui.use_gpu_pixel_buffers=false
 debug.hwui.filter_test_overhead=false
 debug.hwui.overdraw=false
@@ -88,13 +88,11 @@ debug.hwui.skp_filename=false
 debug.hwui.level=0
 debug.hwui.clip_surfaceviews=false
 debug.hwui.nv_profiling=false
-debug.hwui.disable_draw_defer=true
-debug.hwui.disable_draw_reorder=true
+debug.hwui.disable_draw_defer=false
+debug.hwui.disable_draw_reorder=false
 debug.hwui.app_memory_policy=false
-debug.composition.type=gpu
 ro.hwui.disable_scissor_opt=false
 persist.sys.ui.hw=1
-persist.sys.composition.type=gpu
 debug.sf.hw=1
 ro.sf.compbypass.enable=1
 ro.surface_flinger.use_content_detection_for_refresh_rate=false
@@ -105,8 +103,8 @@ ro.max.fling_velocity=12000
 ro.min.fling_velocity=8000
 persist.sys.scrollingcache=3
 
-persist.sys.smartpower.display.enable=true
-persist.sys.smartpower.limit.max.refresh.rate=60
+persist.sys.smartpower.display.enable=false
+persist.sys.smartpower.limit.max.refresh.rate=90
 persist.sys.multithreaded.dexloader.enable=true
 
 #INTERNET SPEED
