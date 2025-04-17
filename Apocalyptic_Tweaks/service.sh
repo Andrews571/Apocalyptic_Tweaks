@@ -3,8 +3,78 @@ MODDIR="${0%/*}"
 
 # Aguarda o sistema inicializar
 while [ "$(getprop sys.boot_completed)" != "1" ]; do
-  sleep 5
+  sleep 2
 done
+
+# Função para aplicar valor e travar arquivo
+lock_val() {
+    for p in $2; do
+        [ ! -f "$p" ] && continue
+        chown root:root "$p"
+        chmod 644 "$p"
+        echo "$1" >"$p"
+        chmod 444 "$p"
+    done
+}
+
+# Desativa serviços thermal conhecidos
+list_thermal_services() {
+    for rc in $(find /system/etc/init /vendor/etc/init /odm/etc/init -type f 2>/dev/null); do
+        grep -r "^service" "$rc" | awk '{print $2}'
+    done | grep -E "thermal|Thermal"
+}
+
+for svc in $(list_thermal_services); do
+    echo "Stopping $svc"
+    stop "$svc"
+done
+
+# Aplica limites máximos falsos nas zonas de thermal
+for zone in /sys/class/thermal/thermal_zone*/mode; do
+    lock_val "disabled" "$zone"
+done
+
+# Remove CPU limits (Mediatek comum)
+if [ -f /sys/devices/virtual/thermal/thermal_message/cpu_limits ]; then
+    echo "Removing CPU limits"
+    for i in 0 2 4 6 7; do
+        maxfreq="$(cat /sys/devices/system/cpu/cpu$i/cpufreq/cpuinfo_max_freq 2>/dev/null)"
+        [ "$maxfreq" -gt "0" ] && lock_val "cpu$i $maxfreq" /sys/devices/virtual/thermal/thermal_message/cpu_limits
+    done
+fi
+
+# Desativa políticas de thermal no PPM (MediaTek)
+if [ -d /proc/ppm ]; then
+    echo "Disabling PPM thermal policies"
+    for idx in $(awk -F'[][]' '/PWR_THRO|THERMAL/{print $2}' /proc/ppm/policy_status 2>/dev/null); do
+        lock_val "$idx 0" /proc/ppm/policy_status
+    done
+fi
+
+# GPU thermal hacks (MediaTek específicos)
+if [ -f /proc/gpufreq/gpufreq_power_limited ]; then
+    lock_val "ignore_batt_oc 1" /proc/gpufreq/gpufreq_power_limited
+    lock_val "ignore_batt_percent 1" /proc/gpufreq/gpufreq_power_limited
+    lock_val "ignore_low_batt 1" /proc/gpufreq/gpufreq_power_limited
+    lock_val "ignore_thermal_protect 1" /proc/gpufreq/gpufreq_power_limited
+    lock_val "ignore_pbm_limited 1" /proc/gpufreq/gpufreq_power_limited
+fi
+
+# Tenta usar override de thermalservice
+cmd thermalservice override-status 0 2>/dev/null
+
+# Bloqueia caminhos adicionais (opcional)
+find /sys/devices/virtual/thermal -type f -exec chmod 000 {} +
+chmod 000 /sys/devices/*mali*/tmu
+chmod 000 /sys/devices/*mali*/throttling*
+chmod 000 /sys/devices/*mali*/tripping
+
+lock_val 0 /sys/class/thermal/thermal_zone0/thm_enable
+lock_val 0 /sys/kernel/msm_thermal/enabled /sys/class/kgsl/kgsl-3d0/throttling
+lock_val N /sys/module/msm_thermal/parameters/enabled
+lock_val "stop 1" /proc/mtk_batoc_throttling/battery_oc_protect_stop
+
+sleep 3
 
 # Executa o script de reset da bateria
 sh "$MODDIR/ABattery/ABatteryReset.sh"
