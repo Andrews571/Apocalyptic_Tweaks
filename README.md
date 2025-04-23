@@ -13,5 +13,4 @@ Creditos:
 Telegram
 @OrkGabb (Gabriel),
 @Rem01Gaming,
-@ericinacio (Erick),
 @RiOpSoDisc (RiProG Group).
