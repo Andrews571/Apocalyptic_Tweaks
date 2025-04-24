@@ -12,5 +12,6 @@ A criação desse modulo não se deve a mim unicamente, dentro de todo o meio da
 Creditos:
 Telegram
 @OrkGabb (Gabriel),
+@ericinacio (Eric_Selene).
 @Rem01Gaming,
 @RiOpSoDisc (RiProG Group).
