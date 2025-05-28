@@ -1,7 +1,7 @@
 id=Apocalyptic
 name=Apocalyptic_Tweaks
-version=1.5
-versionCode=1
+version=3.2
+versionCode=3250
 author=Andrews
 description=AJUSTES PARA !MEDIATEK! (HWC, SF, EAS, GPU, SkiaVK, TCP).
 late_start_service=true
